@@ -19,12 +19,21 @@ try {
 
 export { auth, db, googleProvider };
 
-export const loginWithGoogle = () => {
+export const loginWithGoogle = async () => {
   if (!auth) {
-    alert("Firebase no está configurado correctamente.");
+    alert("Error: Firebase no se ha inicializado. ¿Has subido el archivo firebase-applet-config.json a GitHub?");
     return;
   }
-  return signInWithPopup(auth, googleProvider);
+  try {
+    return await signInWithPopup(auth, googleProvider);
+  } catch (error: any) {
+    console.error("Error en login:", error);
+    if (error.code === 'auth/unauthorized-domain') {
+      alert("¡Dominio no autorizado! Tienes que añadir tu URL de Vercel en la Consola de Firebase (Authentication > Settings > Authorized domains).");
+    } else {
+      alert("Error al entrar: " + error.message);
+    }
+  }
 };
 
 export const logout = () => {
