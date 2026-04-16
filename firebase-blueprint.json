@@ -1,0 +1,36 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "A participant in the trip planning.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Firebase Auth UID" },
+        "name": { "type": "string", "description": "Display name" },
+        "photoURL": { "type": "string", "description": "Profile picture URL" }
+      },
+      "required": ["uid", "name"]
+    },
+    "Unavailability": {
+      "title": "Unavailability",
+      "description": "A record of a day a user is unavailable.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "UID of the user" },
+        "userName": { "type": "string", "description": "Name of the user for quick display" },
+        "date": { "type": "string", "format": "date", "description": "ISO date string (YYYY-MM-DD)" }
+      },
+      "required": ["userId", "userName", "date"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profile data"
+    },
+    "/unavailability/{unavailabilityId}": {
+      "schema": "Unavailability",
+      "description": "Records of when users are busy"
+    }
+  }
+}
